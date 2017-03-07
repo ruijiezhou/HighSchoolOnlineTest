@@ -1,0 +1,322 @@
+package cn.edu.hust.highschoolexam;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+
+
+import com.tencent.stat.StatService;
+
+import android.app.Activity;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebSettings.LayoutAlgorithm;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
+public class PracticeActivity extends Activity {
+	private HTTPGetTask mGetTask = null;
+	HttpClient httpClient;
+	int tcount=0;
+	String toast=null;
+	String []tittle=new String [APPConstant.NUM];
+	String []answer=new String [APPConstant.NUM];
+	String []myanswer=new String [APPConstant.NUM];
+	public int course,difficult,type,chapter;
+	public Button mShowButtom,mStart,mLast,mNext;
+	public ProgressBar mProgressBar;
+	EditText mAnswerText;
+	TextView mTextNum;
+	WebView mTextContent;
+	private Spinner mSpinner1,mSpinner2,mSpinner3;
+	private ArrayAdapter<String> mAdapter1,mAdapter2,mAdapter3; 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_practice);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			course = extras.getInt("course");
+//			Toast.makeText(PracticeActivity.this, APPConstant.COURSE[course], 1000)
+//			.show();
+		}
+		mAnswerText=(EditText)findViewById(R.id.editTextpanswertext);
+		mTextNum=(TextView)findViewById(R.id.textViewpnum);
+		mTextContent=(WebView)findViewById(R.id.textViewptext);
+		// 设置可以支持缩放 
+		mTextContent.getSettings().setSupportZoom(true); 
+							// 设置出现缩放工具 
+		mTextContent.getSettings().setBuiltInZoomControls(true);
+							//扩大比例的缩放
+		mTextContent.getSettings().setUseWideViewPort(true);
+		//自适应屏幕
+		mTextContent.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+		mTextContent.getSettings().setLoadWithOverviewMode(true);
+		mProgressBar = (ProgressBar) findViewById(R.id.progressBarp);
+		mShowButtom =(Button) findViewById(R.id.buttonpshowanswer);
+		mShowButtom.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						mAnswerText.setText(answer[tcount]);
+					}
+				});
+		mNext =(Button) findViewById(R.id.buttonpnext);
+		mNext.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						if(tcount<APPConstant.NUM-1){
+							myanswer[tcount]=mAnswerText.getText().toString().trim();							
+							tcount++;
+							mTextNum.setText("题号："+(tcount+1));
+							mTextContent.loadUrl(tittle[tcount]);
+							mAnswerText.setText(myanswer[tcount]);
+						}else{
+							myanswer[tcount]=mAnswerText.getText().toString().trim();
+							Toast.makeText(PracticeActivity.this, "已到最后一题", 1000)
+							.show();
+						}
+					}
+				});
+		mLast =(Button) findViewById(R.id.buttonplast);
+		mLast.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						if(tcount>0){
+							myanswer[tcount]=mAnswerText.getText().toString().trim();
+							mTextNum.setText("题号："+tcount);
+							tcount--;
+							mTextContent.loadUrl(tittle[tcount]);
+							mAnswerText.setText(myanswer[tcount]);
+						}else{
+							myanswer[tcount]=mAnswerText.getText().toString().trim();
+							Toast.makeText(PracticeActivity.this, "已到第一题", 1000)
+							.show();
+						}
+					}
+				});
+		mStart=(Button) findViewById(R.id.buttonpenter);
+		mStart.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						mProgressBar.setVisibility(View.VISIBLE);
+						mGetTask= new HTTPGetTask();
+						mGetTask.execute();
+					}
+				});
+		mSpinner1=(Spinner)findViewById(R.id.spinner1);
+		mSpinner1.setPrompt("题型");
+		mAdapter1=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, APPConstant.TYPE[course]);
+		mAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		mSpinner1.setAdapter(mAdapter1);
+		mSpinner1.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+//				Toast.makeText(PracticeActivity.this, APPConstant.TYPE[course][arg2], 55500)
+//				.show();
+				type=arg2;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		mSpinner2=(Spinner)findViewById(R.id.spinner2);
+		mSpinner2.setPrompt("难度");
+		mAdapter2=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, APPConstant.DIFFICUL);
+		mAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		mSpinner2.setAdapter(mAdapter2);
+		mSpinner2.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+//				Toast.makeText(PracticeActivity.this, APPConstant.DIFFICUL[arg2], 500)
+//				.show();
+				difficult=arg2;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		mSpinner3=(Spinner)findViewById(R.id.spinner3);
+		mSpinner3.setPrompt("章节");
+		mAdapter3=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, APPConstant.CHAPTER[course]);
+		mAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		mSpinner3.setAdapter(mAdapter3);
+		mSpinner3.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+//				Toast.makeText(PracticeActivity.this, APPConstant.CHAPTER[course][arg2], 500)
+//				.show();
+				chapter=arg2;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		
+	}
+		
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// 如果本Activity是继承基类BaseActivity的，可注释掉此行。
+		StatService.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		// 如果本Activity是继承基类BaseActivity的，可注释掉此行。
+		StatService.onPause(this);
+	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.exam, menu);
+		return true;
+	}
+
+	public class HTTPGetTask extends AsyncTask<Void,Integer, Boolean> {
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			// TODO: attempt authentication against a network service.
+
+			try {
+				// Simulate network access.
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				return false;
+			}
+			httpClient = new DefaultHttpClient();
+			// 创建一个HttpGet对象
+			HttpGet get = new HttpGet(
+					APPConstant.URL+"practice?course="+course+"&difficult="+difficult+"&type="+type+"&chapter="+chapter+"&num="+APPConstant.NUM);
+			try
+			{
+				// 发送GET请求
+				HttpResponse httpResponse = httpClient.execute(get);
+				HttpEntity entity = httpResponse.getEntity();
+				if (entity != null)
+				{
+					// 读取服务器响应
+					BufferedReader br = new BufferedReader(
+						new InputStreamReader(entity.getContent()));
+					String line = null;
+					 StringBuilder builder = new StringBuilder(); 
+					while ((line = br.readLine()) != null)
+					{
+						builder.append(line);
+
+					}
+					try {
+						JSONTokener jsonParser = new JSONTokener(builder.toString());
+						JSONObject js = (JSONObject) jsonParser.nextValue();
+						// 接下来的就是JSON对象的操作
+						if(js.optString("status").equals("0")){
+							for(int j=0;j<APPConstant.NUM;j++){
+								tittle[j]=js.optString("tittle"+j);
+								answer[j]=js.optString("answer"+j);
+							}
+							return true;
+						}else{
+							toast ="读取试题失败"+js.optString("error");
+						}
+					} catch (JSONException ex) {
+						// 异常处理代码
+//						Log.e("====","ex：" + ex);
+						toast ="网络连接错误1"+ex;
+					}
+				}else{
+					toast ="网络连接错误2";
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				toast ="网络连接错误3"+e;
+			}
+
+					return false;
+				
+		}
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+		}
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			mTextNum.setText("题号：1");
+			mTextContent.loadUrl(tittle[0]);
+			tcount=0;
+			mAnswerText.setText("");
+			for(int i=0;i<myanswer.length;i++){
+				myanswer[i]="";
+			}
+			if (toast != null) {
+				Toast.makeText(PracticeActivity.this, toast, 1000).show();
+				toast = null;
+			}
+			mProgressBar.setVisibility(View.GONE);
+			super.onPostExecute(success);
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+	}
+
+}

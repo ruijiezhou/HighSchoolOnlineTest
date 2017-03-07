@@ -1,0 +1,425 @@
+package cn.edu.hust.highschoolexam;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+
+import cn.edu.hust.highschoolexam.MsgListView.OnRefreshListener;
+
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.database.sqlite.SQLiteDatabase;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.Gallery;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
+import android.widget.TabHost;
+import android.widget.TabWidget;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TabHost.OnTabChangeListener;
+import android.widget.ViewSwitcher.ViewFactory;
+
+public class RecordActivity extends Activity {
+
+	/** Called when the activity is first created. */
+	TextView add;
+	HttpClient httpClient1;
+	String url = APPConstant.URL;
+	Gallery gallery;
+	ImageSwitcher is;
+	private SharedPreferences sp;
+	HttpEntity entity;
+	int count = 0, mClick = 0;
+	String type, mUserid, mPass, mName, mNote, mId;
+	String data1, toast4, toast5;
+	String type1;
+	int flag = 0;
+	String inputName;
+	SimpleAdapter adtDvcs;
+	ArrayList<HashMap<String, Object>> listItem1 = new ArrayList<HashMap<String, Object>>();
+	private MsgListView list, list2, list1;
+	
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Looper lp = Looper.myLooper();
+		httpClient1 = new DefaultHttpClient();
+		// 通过findViewById方法实例化组件
+		sp = this.getSharedPreferences("record",
+				Context.MODE_WORLD_READABLE);
+		setContentView(R.layout.activity_record);
+
+
+	
+					checkfriend(1);
+
+
+
+		list1 = (MsgListView) findViewById(R.id.listrecord);
+
+		list1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Intent intent = new Intent(RecordActivity.this,
+						MainActivity.class);
+				intent.putExtra("n",
+						(String) listItem1.get(arg2 - 1).get("kemu"));
+				intent.putExtra("time",
+						(String) listItem1.get(arg2 - 1).get("shijuanid"));
+				intent.putExtra("text",
+						(String) listItem1.get(arg2 - 1).get("chengji"));
+				intent.putExtra("loca",
+						(String) listItem1.get(arg2 - 1).get("chakan"));
+				startActivity(intent);
+
+			}
+		});
+
+		adtDvcs = new SimpleAdapter(RecordActivity.this, listItem1,
+				R.layout.list_item, new String[] { "kemu", "shijuanid", "chengji", "chakan" },
+				new int[] { R.id.textViewl1, R.id.textViewl2, R.id.textViewl3, R.id.bottonl1 });
+		list.setAdapter(adtDvcs);
+		list1.setonRefreshListener(new OnRefreshListener() {
+			public void onRefresh() {
+				new AsyncTask<Void, Void, Void>() {
+					protected Void doInBackground(Void... params) {
+						try {
+							Thread.sleep(1000);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						checkfriend(0);
+						checkfriend(1);
+
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(Void result) {
+						adtDvcs.notifyDataSetChanged();
+
+						list1.onRefreshComplete();
+					}
+				}.execute();
+			}
+		});
+		list1.setItemsCanFocus(false);
+		list1.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+	}
+
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	
+	}
+
+
+	protected void showAddDialog() {
+
+//		LayoutInflater factory = LayoutInflater.from(this);
+//		final View textEntryView = factory.inflate(R.layout.add, null);
+//		final EditText userid = (EditText) textEntryView
+//				.findViewById(R.id.add1);
+//		final EditText pass = (EditText) textEntryView.findViewById(R.id.add2);
+//		final EditText name = (EditText) textEntryView.findViewById(R.id.add3);
+//
+//		AlertDialog.Builder ad1 = new AlertDialog.Builder(FriendActivity.this);
+//		ad1.setTitle("添加关注");
+//		ad1.setIcon(R.drawable.usericon);
+//		ad1.setView(textEntryView);
+//
+//		ad1.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//			public void onClick(DialogInterface dialog, int i) {
+//				mUserid = userid.getText().toString();
+//				mPass = pass.getText().toString();
+//				mName = name.getText().toString();
+//				mClick = 1;
+//				HttpLoad upload = new HttpLoad();
+//				// execute必须在主线程调用
+//				upload.execute();
+//
+//			}
+//		});
+//		ad1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//			public void onClick(DialogInterface dialog, int i) {
+//
+//			}
+//		});
+//		gallery = (Gallery) textEntryView.findViewById(R.id.img_gallery);
+//
+//		is = (ImageSwitcher) textEntryView.findViewById(R.id.image_switcher);
+//		gallery.setAdapter(new ImageAdapter(this));
+//		gallery.setSelection(images.length / 2);
+//		gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+//
+//			@Override
+//			public void onItemSelected(AdapterView<?> parent, View view,
+//					int position, long id) {
+//				imagePosition = position;
+//				is.setImageResource(images[position % images.length]);
+//				img = images[position % images.length];
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> parent) {
+//
+//			}
+//		});
+//		is.setFactory(new MyViewFactory(this));
+//		ad1.show();// 显示对话框
+
+	}
+
+
+
+	public void uploadadd(String auserid, String apass, String aname,
+			String images) {
+		String name = "111";
+		HttpPost post = new HttpPost(url + "servlet/news");
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("what", "0"));
+		params.add(new BasicNameValuePair("userid", auserid));
+		params.add(new BasicNameValuePair("password", apass));
+		params.add(new BasicNameValuePair("ownid", name));
+		params.add(new BasicNameValuePair("aname", aname));
+		params.add(new BasicNameValuePair("image", images));
+
+		try {
+			// 设置请求参数
+			post.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+			// 发送POST请求
+			HttpResponse response = httpClient1.execute(post);
+			// 如果服务器成功地返回响应
+			if (response.getStatusLine().getStatusCode() == 200) {
+
+				toast4 = EntityUtils.toString(response.getEntity()).trim();
+
+			} else {
+				toast4 = "网络有问题，添加失败";
+
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			toast5 = "网络异常";
+
+		}
+
+	}
+
+	public void uploadnote(String userid, String note) {
+		String name = "";
+		HttpPost post = new HttpPost(url + "servlet/news");
+		SimpleDateFormat sDateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd   HH:mm:ss");
+		String nowTime = sDateFormat.format(new Date());// 记录上传数据对应的时间
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("what", "1"));
+		params.add(new BasicNameValuePair("nuserid", userid));
+		params.add(new BasicNameValuePair("notetime", nowTime));
+		params.add(new BasicNameValuePair("nownid", name));
+		params.add(new BasicNameValuePair("note", note));
+
+		try {
+			// 设置请求参数
+			post.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+			// 发送POST请求
+			HttpResponse response = httpClient1.execute(post);
+			// 如果服务器成功地返回响应
+			if (response.getStatusLine().getStatusCode() == 200) {
+
+				toast4 = EntityUtils.toString(response.getEntity()).trim();
+
+			} else {
+				toast4 = "网络有问题，留言失败";
+
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			toast5 = "网络异常";
+
+		}
+
+	}
+
+
+	public void checkfriend(int type) {
+		list = (MsgListView) findViewById(R.id.listrecord);
+		listItem1.clear();
+		String name = "";
+		String[] note = new String[2];
+		note[0] = "";
+		if (type == 0) {
+			HttpGet get = new HttpGet(url + "servlet/news?info=" + name
+					+ "&type=1");
+			try {
+				HttpResponse httpResponse = httpClient1.execute(get);
+				entity = httpResponse.getEntity();
+				if (entity != null) {
+					BufferedReader br = new BufferedReader(
+							new InputStreamReader(entity.getContent()));
+					String line = "";
+					while ((line = br.readLine()) != null) {
+						line = (new String(line.getBytes("UTF-8"), "UTF-8"));
+						note[0] += line + "\n";
+					}
+					if (!note[0].equals("")) {
+						Editor editor = sp.edit();
+						editor.putString(name + "FANS", note[0]);
+						editor.commit();
+					}
+					String[] item = note[0].split("@");
+					if (item.length > 2) {
+						for (int i = 1; i < item.length - 1; i++) {
+							String[] a = item[i].split("&");
+							HashMap<String, Object> map1 = new HashMap<String, Object>();
+							map1.put("textid", a[0]);
+							listItem1.add(map1);
+						}
+					}
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (type == 1) {
+			note[0] = sp.getString(name + "FANS", "");
+			String[] item = note[0].split("@");
+			if (item.length > 2) {
+				for (int i = 1; i < item.length - 1; i++) {
+					String[] a = item[i].split("&");
+					HashMap<String, Object> map1 = new HashMap<String, Object>();
+					map1.put("textid", a[0]);
+
+					listItem1.add(map1);
+				}
+
+			} else {
+				HashMap<String, Object> map1 = new HashMap<String, Object>();
+				map1.put("textid", "");
+
+				listItem1.add(map1);
+			}
+
+		}
+
+	}
+
+
+
+	
+
+
+
+
+	public class HttpLoad extends AsyncTask<String, Integer, String> {
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			if (mClick == 1) {
+				//uploadadd(mUserid, mPass, mName);
+				checkfriend(0);
+				mUserid = "";
+				mPass = "";
+				mName = "";
+				mClick = 0;
+			} else if (mClick == 2) {
+				uploadnote(mId, mNote);
+				mId = "";
+				mNote = "";
+				mClick = 0;
+			}
+			try {
+				Thread.sleep(500);
+				publishProgress(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			return "doInBackground";
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (toast5 != null && !toast5.equals("")) {
+				Toast.makeText(RecordActivity.this, toast5, 9000).show();
+				toast5 = null;
+			}
+			if (toast4 != null && !toast4.equals("")) {
+				Toast.makeText(RecordActivity.this, toast4, 9000).show();
+				toast4 = null;
+			}
+
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+	}
+
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.record, menu);
+		return true;
+	}
+
+}

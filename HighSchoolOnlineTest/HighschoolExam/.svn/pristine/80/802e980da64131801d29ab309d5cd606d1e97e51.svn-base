@@ -1,0 +1,29 @@
+package cn.edu.hust.highschoolexam;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+import android.widget.Toast;
+
+public class ExamActivity extends Activity {
+	public int course;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_exam);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			course = extras.getInt("course");
+			Toast.makeText(ExamActivity.this, course+"", 1000)
+			.show();
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.exam, menu);
+		return true;
+	}
+
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">高中在线考试</string>
+    <string name="action_settings">设置</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_home">高中在线练习与考试系统</string>
+    <string name="menu_home_exercise">在线练习</string>
+    <string name="menu_home_exam">在线考试</string>
+    <string name="menu_home_history">历史记录</string>
+    <string name="menu_home_userinfo">个人信息</string>
+
+</resources>

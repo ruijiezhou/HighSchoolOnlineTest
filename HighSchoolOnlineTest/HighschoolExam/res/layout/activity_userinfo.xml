@@ -1,0 +1,297 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical" 
+  android:background="@color/lblue"
+      tools:context=".UserinfoActivity" >
+
+<ScrollView
+	android:layout_weight="4"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:scrollbars="vertical"
+>
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="74dp"
+    android:orientation="vertical" >
+	<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="74dp"
+    android:orientation="horizontal" >	
+		
+		
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:focusable="true"  
+        android:focusableInTouchMode="true"
+		>
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="用户名"
+				 android:textColor="#424d54"
+				android:textSize="20dp">
+			</TextView>
+			<EditText
+				android:id="@+id/usernameRegister"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				android:hint="请输入用户名"
+				>
+			
+			</EditText>
+
+			
+</LinearLayout>
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+		>
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="密码"
+				 android:textColor="#424d54"
+				android:textSize="20dp">
+			</TextView>
+
+		
+
+			<EditText
+				android:id="@+id/passwordRegister"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				 android:inputType="textPassword"
+				android:hint="请输入密码"
+				>
+			
+			</EditText>
+
+			
+
+			<EditText
+			    android:id="@+id/pass2"
+			    android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				 android:inputType="textPassword"
+				android:hint="请再次输入密码"
+				>
+			
+			</EditText>
+
+		</LinearLayout>
+		
+		
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+		>
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="姓名"
+				 android:textColor="#424d54"
+				android:textSize="20dp">
+			</TextView>
+			<EditText
+				android:id="@+id/nameRegister"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				android:hint="请输入姓名"
+				>
+			
+			</EditText>
+	</LinearLayout>
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+		>
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="学号"
+				 android:textColor="#424d54"
+				android:textSize="20dp">
+			</TextView>
+			<EditText
+				android:id="@+id/sidRegister"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				android:hint="请输入学号"
+				>
+			</EditText>
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+		>
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="学校"
+				 android:textColor="#424d54"
+				android:textSize="20dp">
+			</TextView>
+			<EditText
+				android:id="@+id/schRegister"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				android:hint="请输入学校"
+				>
+			</EditText>
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+		>
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="班级"
+				 android:textColor="#424d54"
+				android:textSize="20dp">
+			</TextView>
+
+			<EditText
+			    android:id="@+id/classRegister"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:gravity="top"
+			    android:hint="请输入班级"
+			    >
+
+			</EditText>
+		</LinearLayout>
+				<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+		>
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="性别"
+				 android:textColor="#424d54"
+				android:textSize="20dp">
+			</TextView>
+			
+            <RadioGroup
+                android:id="@+id/sexRegister"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/nan"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/nan"
+                    android:text="男" 
+                     android:textSize="18dp"
+                android:textColor="#424d54"
+                android:textStyle="bold"
+                android:layout_marginRight="40dip" />
+
+                <RadioButton
+			    android:id="@+id/women"
+			    android:text="女" 
+                     android:textSize="18dp"
+                android:textColor="#424d54"
+                android:textStyle="bold"
+                android:layout_marginRight="40dip" />
+            </RadioGroup>
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+		>
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="身份类型"
+				 android:textColor="#424d54"
+				android:textSize="20dp">
+			</TextView>
+			<EditText
+				android:id="@+id/ttype"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="top"
+				
+				android:text="student"
+				>
+			</EditText>
+		</LinearLayout>
+
+	</LinearLayout>
+  </ScrollView>
+
+  <LinearLayout
+	android:layout_weight="1"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	android:layout_marginLeft="10dp"
+	android:layout_marginRight="10dp"
+	>
+
+  
+
+                <Button
+                    android:id="@+id/Register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:text="注             册"
+            android:background="@drawable/menu_cell_background"
+                    android:textStyle="bold" />
+      
+</LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,12 @@
+package cn.edu.hust.highschoolexam;
+
+
+public class APPConstant {
+	 private APPConstant() {
+	    }
+	 
+		public static String URL = "http://192.168.137.1:8080/highschoolexam/servlet/"; // "http://222.20.74.75:8080/servlettest/";//"http://healthhelper.duapp.com/";//·þÎñÆ÷ip
+		
+		
+		
+}

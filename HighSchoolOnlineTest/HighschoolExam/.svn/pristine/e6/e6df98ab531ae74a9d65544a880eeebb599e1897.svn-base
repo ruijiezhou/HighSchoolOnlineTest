@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.edu.hust.highschoolexam"
+    android:versionCode="2014112201"
+    android:versionName="1.01" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="17" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home" >
+        </activity>
+        <activity
+            android:name=".ExamActivity"
+            android:label="@string/title_activity_exam" >
+        </activity>
+        <activity
+            android:name=".PracticeActivity"
+            android:label="@string/title_activity_practice" >
+        </activity>
+        <activity
+            android:name=".RecordActivity"
+            android:label="@string/title_activity_record" >
+        </activity>
+        <activity
+            android:name=".UserinfoActivity"
+            android:label="@string/title_activity_userinfo" >
+        </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register" >
+        </activity>
+        <activity
+            android:name=".ViewPaperActivity"
+            android:label="@string/title_activity_view_paper" >
+        </activity>
+        <activity
+            android:name=".ViewPractiseActivity"
+            android:label="@string/title_activity_view_practise" >
+        </activity>
+        <activity
+            android:name=".ViewExamActivity"
+            android:label="@string/title_activity_view_exam" >
+        </activity>
+        <activity
+            android:name=".ExamPaperActivity"
+            android:label="@string/title_activity_exam_paper" >
+        </activity>
+        <activity
+            android:name=".SelectExamActivity"
+            android:label="@string/title_activity_select_exam" >
+        </activity>
+    </application>
+    <!-- 授权访问网络 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>

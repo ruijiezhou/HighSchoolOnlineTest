@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+        android:paddingBottom="@dimen/home_vertical_margin"
+    android:paddingLeft="@dimen/home_horizontal_margin"
+    android:paddingRight="@dimen/home_horizontal_margin"
+    android:paddingTop="@dimen/home_vertical_margin"
+                android:orientation="vertical" >
+   
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+        <ToggleButton
+            android:id="@+id/toggleButtonstexam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/menu_cell_background"
+            android:textOff="开始考试"
+            android:textOn="结束考试" 
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="剩余时间"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+          <TextView
+              android:id="@+id/textViewtime"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="right|center_vertical"
+              android:layout_weight="1"
+              android:text="00:00:00"
+              android:textAppearance="?android:attr/textAppearanceLarge" />
+
+      </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textMultiLine" >
+
+                <requestFocus />
+            </EditText>
+          
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/buttonexamlast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="上一题"
+                android:background="@drawable/menu_cell_background" 
+                 android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 />
+
+            <Button
+                android:id="@+id/buttonexamnext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="下一题" 
+                android:background="@drawable/menu_cell_background"
+                 android:layout_weight="1"/>
+
+        </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,51 @@
+package cn.edu.hust.highschoolexam;
+
+import android.app.Activity;
+import android.app.ActionBar;
+import android.app.Fragment;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.os.Build;
+
+public class PracticeActivity extends Activity {
+	public int course;
+	public PopupWindow popupWindow;
+	public Button mShowButtom;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_practice);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			course = extras.getInt("course");
+			Toast.makeText(PracticeActivity.this, course+"", 1000)
+			.show();
+		}
+		mShowButtom =(Button) findViewById(R.id.buttonpshowanswer);
+	}
+		
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.exam, menu);
+		return true;
+	}
+
+      
+
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:paddingBottom="@dimen/item"
+    android:paddingTop="@dimen/item"
+     >
+
+    <TextView
+        android:id="@+id/textViewl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="语文" 
+        android:layout_weight="6"
+        />
+
+    <TextView
+        android:id="@+id/textViewl2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="201409190909" 
+        android:layout_weight="5"
+        />
+
+
+    <TextView
+        android:id="@+id/textViewl3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="待阅卷"   
+              android:layout_weight="6"
+        />
+
+    <Button
+        android:id="@+id/bottonl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查看"
+        android:layout_weight="5"
+        android:background="@drawable/menu_cell_background"
+         />
+
+
+</LinearLayout>

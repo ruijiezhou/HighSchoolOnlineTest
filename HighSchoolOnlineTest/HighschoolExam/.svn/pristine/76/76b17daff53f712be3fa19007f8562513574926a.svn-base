@@ -1,0 +1,177 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/exam_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExamActivity"
+            android:paddingLeft="@dimen/exam_tittle"
+        android:paddingRight="@dimen/exam_tittle" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+
+        android:paddingTop="@dimen/exam_tittle" >
+
+        <ToggleButton
+            android:id="@+id/toggleButtonstexam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:background="@drawable/menu_cell_background"
+            android:textOff="开始考试"
+            android:textOn="结束考试" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_weight="6"
+            
+            android:gravity="right"
+            android:text="剩余\n时间" />
+
+        <TextView
+            android:id="@+id/textViewtime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_weight="5"
+            android:gravity="left"
+            
+            android:text="00:00:00"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+            android:paddingTop="@dimen/exam_tittle"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout1"
+ >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textViewexamtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="高中语文试卷"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/textViewexamtext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="试题" />
+        </LinearLayout>
+    </ScrollView>
+    <Button
+    android:id="@+id/buttonexamshow"
+    android:layout_width="wrap_content"
+    android:layout_height="30dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:background="@drawable/menu_cell_background"
+    android:text="展开答题卡" />
+<LinearLayout
+    android:id="@+id/viewanswerpaper"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@color/lblue"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/exam_tittle"
+    android:paddingTop="@dimen/exam_tittle"
+    android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" 
+             android:paddingBottom="@dimen/exam_tittle"
+    android:paddingLeft="@dimen/exam_tittle"
+    android:paddingRight="@dimen/exam_tittle"
+    android:focusable="true"  
+        android:focusableInTouchMode="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:paddingBottom="@dimen/exam_tittle">
+
+            <TextView
+                android:id="@+id/textViewanswernum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="题号：1" />
+
+            <Button
+                android:id="@+id/buttonexamhide"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/menu_cell_background"
+                android:text="收起" />
+
+            </RelativeLayout>
+
+
+
+           <EditText
+                android:id="@+id/editTextanswertext"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:ems="10"
+                android:background="@color/white"
+                android:inputType="textMultiLine" >
+
+            </EditText>
+          
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp" >
+
+            <Button
+                android:id="@+id/buttonexamlast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="上一题"
+                android:background="@drawable/menu_cell_background" 
+                 android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 />
+
+            <Button
+                android:id="@+id/buttonexamnext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="下一题" 
+                android:background="@drawable/menu_cell_background"
+                 android:layout_weight="1"/>
+
+        </LinearLayout>
+
+</LinearLayout>
+
+
+            
+</RelativeLayout>

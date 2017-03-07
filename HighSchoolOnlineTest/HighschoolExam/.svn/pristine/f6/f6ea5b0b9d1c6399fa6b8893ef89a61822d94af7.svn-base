@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+        android:paddingBottom="@dimen/home_vertical_margin"
+    android:paddingLeft="@dimen/home_horizontal_margin"
+    android:paddingRight="@dimen/home_horizontal_margin"
+    android:paddingTop="@dimen/home_vertical_margin"
+                android:orientation="vertical"
+                android:background="@drawable/light_blue"
+                 >
+   
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" 
+             android:paddingBottom="@dimen/home_vertical_margin"
+    android:paddingLeft="@dimen/home_horizontal_margin"
+    android:paddingRight="@dimen/home_horizontal_margin"
+    android:paddingTop="@dimen/home_vertical_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="题号：" />
+
+            <TextView
+                android:id="@+id/textViewanswernum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1" />
+                
+            </LinearLayout>
+
+
+
+           <EditText
+                android:id="@+id/editTextanswertext"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:ems="10"
+                android:background="@color/white"
+                android:inputType="textMultiLine" >
+
+            </EditText>
+          
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/buttonexamlast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="上一题"
+                android:background="@drawable/menu_cell_background" 
+                 android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 />
+
+            <Button
+                android:id="@+id/buttonexamnext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="下一题" 
+                android:background="@drawable/menu_cell_background"
+                 android:layout_weight="1"/>
+
+        </LinearLayout>
+
+</LinearLayout>

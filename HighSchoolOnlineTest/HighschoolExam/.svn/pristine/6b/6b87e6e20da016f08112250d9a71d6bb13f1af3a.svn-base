@@ -1,0 +1,228 @@
+package cn.edu.hust.highschoolexam;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
+import com.tencent.stat.StatService;
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.app.Activity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+public class RegisterActivity extends Activity {
+	EditText username;
+	EditText password, password2;
+	EditText name;
+	EditText sid;
+	EditText school;
+	EditText classs, type;
+	RadioGroup sex;
+	Button register;
+	HttpClient mHttpClient;
+	String url = APPConstant.URL;
+	String toast1 = null;
+	String toast2 = null;
+	String toast3 = null;
+	String toast4 = null;
+	String musername ;
+	String mpass;
+	String mpass2;
+	String mname;
+	String mclasss;
+	String mtype ;
+	String mschool ;
+	String msid ;
+	String msex ;
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_userinfo);
+		findViews();
+		mHttpClient = new DefaultHttpClient();
+		register.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				 musername = username.getText().toString().trim();
+				 mpass = password.getText().toString().trim();
+				 mpass2 = password2.getText().toString().trim();
+				 mname = name.getText().toString().trim();
+				mclasss = classs.getText().toString().trim();
+			 mtype = type.getText().toString().trim();
+				 mschool = school.getText().toString().trim();
+				 msid = sid.getText().toString().trim();
+				 msex = ((RadioButton) RegisterActivity.this.findViewById(sex
+						.getCheckedRadioButtonId())).getText().toString();
+				if (mpass.equals(mpass2)&&mpass.length()>5) {
+					if (!mpass.equals("")&&!msid.equals("")&&!musername.equals("")){
+						HttpLoad upload = new HttpLoad();
+						// execute必须在主线程调用
+						upload.execute();
+
+					}else{
+						Toast.makeText(RegisterActivity.this, "用户名、密码、学号均不能为空",
+								Toast.LENGTH_LONG).show();
+					}
+				} else {
+					Toast.makeText(RegisterActivity.this, "两次密码请保持一致,且密码需六位以上",
+							Toast.LENGTH_LONG).show();
+					password.setText("");
+					password2.setText("");
+				}
+			}
+		});
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// 如果本Activity是继承基类BaseActivity的，可注释掉此行。
+		StatService.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		// 如果本Activity是继承基类BaseActivity的，可注释掉此行。
+		StatService.onPause(this);
+	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		android.os.Debug.stopMethodTracing();
+	}
+	private void findViews() {
+		username = (EditText) findViewById(R.id.usernameRegister);
+		password = (EditText) findViewById(R.id.passwordRegister);
+		password2 = (EditText) findViewById(R.id.pass2);
+		name = (EditText) findViewById(R.id.nameRegister);
+		classs = (EditText) findViewById(R.id.classRegister);
+		school = (EditText) findViewById(R.id.schRegister);
+		sid = (EditText) findViewById(R.id.sidRegister);
+		type = (EditText) findViewById(R.id.ttype);
+		sex = (RadioGroup) findViewById(R.id.sexRegister);
+		register = (Button) findViewById(R.id.Register);
+
+//		name.setText("");
+//		classs.setText();
+//		school.setText();
+		type.setText("student");
+		type.setFocusable(false);
+
+	}
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.userinfo, menu);
+		return true;
+	}
+	public Boolean uploaddata() {
+		HttpPost post = new HttpPost(url + "login");
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("username", musername));
+		params.add(new BasicNameValuePair("password", mpass));
+		params.add(new BasicNameValuePair("name", mname));
+		params.add(new BasicNameValuePair("class", mclasss));
+		params.add(new BasicNameValuePair("school", mschool));
+		params.add(new BasicNameValuePair("sid", msid));
+		params.add(new BasicNameValuePair("type", mtype));
+		params.add(new BasicNameValuePair("sex", msex));
+
+		try {
+			// 设置请求参数
+			post.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+			// 发送POST请求
+			HttpResponse response = mHttpClient.execute(post);
+			// 如果服务器成功地返回响应
+			if (response.getStatusLine().getStatusCode() == 200) {
+
+				String ret = EntityUtils.toString(response.getEntity()).trim();
+				JSONObject result = new JSONObject(ret);
+				if(result.getString("status").equals("0")){
+					toast1="注册成功";
+					return true;
+				}else if(result.getString("status").equals("1")){
+					toast1="注册失败，用户名或学号已存在";
+					return false;
+				}else{
+					toast1="注册失败，数据库写入错误";
+					return false;
+				}
+									
+			} else {
+				toast1 = "注册失败，网络连接错误";
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("===", "" + e);
+			toast4 = "网络异常"+e;
+			return false;
+		}
+		
+
+	}
+	public class HttpLoad extends AsyncTask<Void, Integer, Boolean> {
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			
+//			Toast.makeText(RegisterActivity.this, "修改成功", Toast.LENGTH_LONG)
+//			.show();
+//			finish();
+
+			return uploaddata();
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+
+			if (toast4 != null) {
+				Toast.makeText(RegisterActivity.this, toast4, 9000).show();
+				toast4 = null;
+			}
+			if (toast1 != null) {
+				Toast.makeText(RegisterActivity.this, toast1, 9000).show();
+				toast1 = null;
+			}
+			if (success) {
+				finish();
+			} 
+			super.onPostExecute(success);
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+	}
+}

@@ -1,0 +1,16 @@
+package cn.edu.hust.highschoolexam;
+
+
+public class APPConstant {
+	 private APPConstant() {
+	    }
+	 
+		public static String URL = "http://highschoolexam.sinaapp.com/servlet/"; // "http://222.20.74.75:8080/servlettest/";//"http://healthhelper.duapp.com/";//服务器ip
+		public static String USERNAME = "";
+		public static String PASS = "";		
+		public static int NUM = 5;
+		public static String []COURSE ={"语文","数学","物理","化学"};
+		public static String []DIFFICUL={"简单","一般","难"};
+		public static String [][]CHAPTER ={{"第一章","第二章","第三章","第四章"},{"第一章","第二章","第三章","第四章"},{"第一章","第二章","第三章","第四章"},{"第一章","第二章","第三章","第四章"}};
+		public static String [][]TYPE ={{"基础知识","古文阅读","现代文阅读","语言运用","作文"},{"选择题","填空题","大题"},{"选择题","填空题","计算题"},{"选择题","填空题","计算题","实验题"}};
+}

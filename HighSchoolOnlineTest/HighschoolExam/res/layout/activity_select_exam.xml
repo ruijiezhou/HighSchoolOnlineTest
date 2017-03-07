@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/lblue"
+    tools:context="cn.edu.hust.highschoolexam.SelectExamActivity" >
+
+
+    <TextView
+        android:id="@+id/textViewec2"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:text="科目： "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/TextViewec01"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignBaseline="@+id/textViewec2"
+        android:layout_alignBottom="@+id/textViewec2"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/textViewec2"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="语文 "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/TextViewec02"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@+id/textViewec2"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/TextViewec03"
+        android:gravity="center"
+        android:text="年级： "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/TextViewec03"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignBaseline="@+id/TextViewec02"
+        android:layout_alignBottom="@+id/TextViewec02"
+        android:layout_alignLeft="@+id/TextViewec01"
+        android:layout_alignRight="@+id/TextViewec01"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="高一"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/TextViewec05"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignBaseline="@+id/TextViewec04"
+        android:layout_alignBottom="@+id/TextViewec04"
+        android:layout_alignLeft="@+id/TextViewec03"
+        android:layout_alignRight="@+id/TextViewec03"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="期末考试 "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/TextViewec04"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@+id/TextViewec02"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/TextViewec05"
+        android:gravity="center"
+        android:text="类型： "
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonec1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/TextViewec05"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/menu_cell_background"
+        android:text="选择试卷"
+        android:textColor="@color/white" />
+    
+
+</RelativeLayout>

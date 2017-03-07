@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">高中考试</string>
+    <string name="action_settings">设置</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_home">高中在线练习与考试系统</string>
+    <string name="menu_home_exercise">在线练习</string>
+    <string name="menu_home_exam">在线考试</string>
+    <string name="menu_home_history">历史记录</string>
+    <string name="menu_home_userinfo">个人信息</string>
+    <string name="title_activity_exam">在线考试</string>
+    <string name="title_activity_practice">在线练习</string>
+    <string name="title_activity_record">历史记录</string>
+    <string name="title_activity_userinfo">您的信息</string>
+    <string name="title_activity_register">欢迎注册</string>
+    <string name="title_activity_view_paper">查看试卷</string>
+    <string name="title_activity_view_practise">习题大全</string>
+    <string name="title_activity_view_exam">试卷大全</string>
+    <string name="title_activity_exam_paper">查看试卷</string>
+    <string name="title_activity_select_exam">选择试卷</string>
+
+</resources>

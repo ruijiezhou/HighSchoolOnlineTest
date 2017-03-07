@@ -1,0 +1,189 @@
+package cn.edu.hust.highschoolexam;
+
+
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.app.Activity;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+
+public class ExamActivity extends Activity {
+	public int course;
+	public ToggleButton mStartButtom;
+	public Button mHideButtom;
+	public Button mShowButtom;
+	public EditText mAnswerText;
+	public LinearLayout mAnswerPaper;
+	public TextView mTime;
+	public TextView mNum;
+	long TIME= 150*60*1000;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_exam);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			course = extras.getInt("course");
+			Toast.makeText(ExamActivity.this, course+"", 1000)
+			.show();
+		}
+		mAnswerPaper = (LinearLayout)findViewById(R.id.viewanswerpaper);
+		Button buttonexamlast = (Button)findViewById(R.id.buttonexamlast);   //dialog.xml视图里面的控件  
+	    Button buttonexamnext = (Button)findViewById(R.id.buttonexamnext);  
+	    mHideButtom= (Button)findViewById(R.id.buttonexamhide);  
+	    mShowButtom= (Button)findViewById(R.id.buttonexamshow);  
+	    mAnswerText = (EditText)findViewById(R.id.editTextanswertext);
+		mStartButtom =(ToggleButton) findViewById(R.id.toggleButtonstexam);
+		mTime = (TextView)findViewById(R.id.textViewtime); 
+		mNum= (TextView)findViewById(R.id.textViewanswernum); 
+
+		mStartButtom.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				if(isChecked){ 
+					mAnswerPaper.setVisibility(View.VISIBLE);
+					mCountDownTimer.start();
+					Toast.makeText(ExamActivity.this, "开始考试", Toast.LENGTH_LONG).show();  
+	            }else{ 
+	            	mCountDownTimer.onFinish();
+	             }  
+
+			}
+
+        });
+		mHideButtom.setOnClickListener(new OnClickListener() {  
+            
+            @Override  
+            public void onClick(View v) {  
+                // TODO Auto-generated method stub  
+            	mAnswerPaper.setVisibility(View.GONE);
+            	Toast.makeText(ExamActivity.this, "隐藏答题卡", 1000);
+            }  
+        });  
+		mShowButtom.setOnClickListener(new OnClickListener() {  
+            
+            @Override  
+            public void onClick(View v) {  
+                // TODO Auto-generated method stub  
+            	if(mStartButtom.isChecked())
+            	mAnswerPaper.setVisibility(View.VISIBLE);
+            	Toast.makeText(ExamActivity.this, "隐藏答题卡", 1000);
+            }  
+        });       
+	        buttonexamlast.setOnClickListener(new OnClickListener() {  
+	              
+	            @Override  
+	            public void onClick(View v) {  
+	                // TODO Auto-generated method stub  
+	            	Toast.makeText(ExamActivity.this, "上一题", 1000);
+	            }  
+	        });  
+	          
+	        buttonexamnext.setOnClickListener(new OnClickListener() {  
+	              
+	            @Override  
+	            public void onClick(View v) {  
+	                // TODO Auto-generated method stub  
+	            	Toast.makeText(ExamActivity.this, "下一题", 1000);
+	            }  
+	        });  
+		
+	}
+	CountDownTimer mCountDownTimer= new CountDownTimer(TIME,1000) {//两个参数，前一个指倒计时的总时间，后一个指多长时间倒数一下。  
+        
+        @Override  
+        public void onTick(long millisUntilFinished) {  
+            // TODO Auto-generated method stub  
+        	mTime.setText(millisUntilFinished/1000/60/60+":"+millisUntilFinished/1000/60%60+":"+millisUntilFinished/1000%60);  
+        	
+        }  
+          
+        @Override  
+        public void onFinish() {  
+            // TODO Auto-generated method stub  
+        	endExam();
+        	mTime.setText("考试结束");
+        	this.cancel();
+        }  
+    }; 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.exam, menu);
+		return true;
+	}
+	
+    private void endExam() {  
+    	
+    	mAnswerPaper.setVisibility(View.GONE);
+    	Toast.makeText(ExamActivity.this, "结束考试", Toast.LENGTH_LONG).show();  
+       
+    }
+    /** 
+     * 创建PopupWindow 
+     */  
+ /*   protected void initPopuptWindow() {  
+        // TODO Auto-generated method stub  
+          
+          
+        View popupWindow_view = getLayoutInflater().inflate(    //获取自定义布局文件的视图  
+                R.layout.answer, null,false);  
+          
+        popupWindow = new PopupWindow(popupWindow_view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);//创建PopupWindow实例  
+        popupWindow.setOutsideTouchable(true);
+        Button buttonexamlast = (Button)popupWindow_view.findViewById(R.id.buttonexamlast);   //dialog.xml视图里面的控件  
+        Button buttonexamnext = (Button)popupWindow_view.findViewById(R.id.buttonexamnext);  
+        final EditText et_text = (EditText)popupWindow_view.findViewById(R.id.editTextanswertext);   
+          
+        buttonexamlast.setOnClickListener(new OnClickListener() {  
+              
+            @Override  
+            public void onClick(View v) {  
+                // TODO Auto-generated method stub  
+            	Toast.makeText(ExamActivity.this, "上一题", 1000);
+              //  popupWindow.dismiss();                  //对话框消失  
+            }  
+        });  
+          
+        buttonexamnext.setOnClickListener(new OnClickListener() {  
+              
+            @Override  
+            public void onClick(View v) {  
+                // TODO Auto-generated method stub  
+            	Toast.makeText(ExamActivity.this, "下一题", 1000);
+               // popupWindow.dismiss();  
+            }  
+        });  
+
+          
+    }  
+      
+     
+     * 获取PopupWindow实例 
+       
+    private void getPopupWindow() {  
+          
+        if(null != popupWindow) {  
+            popupWindow.dismiss();  
+            return;  
+        }else {  
+            initPopuptWindow();  
+        }  
+    }  */
+}
